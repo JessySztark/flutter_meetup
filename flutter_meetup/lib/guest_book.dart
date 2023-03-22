@@ -47,7 +47,7 @@ class _GuestBookState extends State<GuestBook> {
                       _controller.clear();
                     }
                   },
-                  highlighted: false,
+                  highlighted: true,
                   child: Row(
                     children: const [
                       Icon(Icons.send),

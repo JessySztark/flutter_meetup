@@ -57,15 +57,23 @@ class StyledButton extends StatelessWidget {
       {required this.child,
       required this.onPressed,
       super.key,
-      required this.highlighted});
+      this.highlighted = false});
   final Widget child;
   final void Function() onPressed;
   final bool highlighted;
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final style = OutlinedButton.styleFrom(
+      side: BorderSide(color: theme.colorScheme.primary),
+      backgroundColor:
+          highlighted ? theme.colorScheme.primary : theme.colorScheme.secondary,
+      foregroundColor: highlighted
+          ? theme.colorScheme.onPrimary
+          : theme.colorScheme.onSecondary,
+    );
     return OutlinedButton(
-      style: OutlinedButton.styleFrom(
-          side: const BorderSide(color: Colors.deepPurple)),
+      style: style,
       onPressed: onPressed,
       child: child,
     );
