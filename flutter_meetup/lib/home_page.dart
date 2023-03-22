@@ -4,8 +4,8 @@ import 'package:flutter_meetup/app_state.dart';
 import 'package:flutter_meetup/auth_action.dart';
 import 'package:flutter_meetup/widgets.dart';
 import 'package:provider/provider.dart';
-
 import 'guest_book.dart';
+import 'yes_no_selection.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -33,10 +33,36 @@ class HomePage extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (appState.loggedIn) ...[
+                if (appState.loggedIn)
                   GuestBook(
-                      addMessage: (message) =>
-                          appState.addMessageToGuestBook(message)),
+                    addMessage: (message) =>
+                        appState.addMessageToGuestBook(message),
+                    messages: appState.guestBookMessages,
+                  ),
+              ],
+            );
+          }),
+          Consumer<ApplicationState>(builder: (context, appState, _) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (appState.attendees >= 2)
+                  Paragraph('${appState.attendees} participants')
+                else if (appState.attendees == 1)
+                  const Paragraph('1 participant')
+                else
+                  const Paragraph('Aucun participant'),
+                if (appState.loggedIn) ...[
+                  YesNoSelection(
+                    state: appState.attending,
+                    onSelection: (attending) => appState.attending = attending,
+                  ),
+                  const Header('Discussion'),
+                  GuestBook(
+                    addMessage: (message) =>
+                        appState.addMessageToGuestBook(message),
+                    messages: appState.guestBookMessages,
+                  ),
                 ],
               ],
             );

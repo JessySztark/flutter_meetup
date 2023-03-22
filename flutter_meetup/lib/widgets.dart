@@ -53,9 +53,14 @@ class IconAndDetail extends StatelessWidget {
 }
 
 class StyledButton extends StatelessWidget {
-  const StyledButton({required this.child, required this.onPressed, super.key});
+  const StyledButton(
+      {required this.child,
+      required this.onPressed,
+      super.key,
+      required this.highlighted});
   final Widget child;
   final void Function() onPressed;
+  final bool highlighted;
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
